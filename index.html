@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#075b2b">
+  <title>Denah Bus | PP. Mambaul Hisan</title>
+  <link rel="icon" href="logo-mambaul-hisan.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <img src="logo-mambaul-hisan.png" alt="Logo PP Mambaul Hisan">
+      <div>
+        <span class="eyebrow">ZIARAH WALI & WISATA SELECTA</span>
+        <h1>Denah Bus PP. Mambaul Hisan</h1>
+        <p>Gresik – Batu · 17–18 Desember 2026</p>
+      </div>
+    </div>
+    <div class="header-tools">
+      <span id="connection" class="connection"><i></i><span>Memuat data…</span></span>
+      <button class="button button-light" id="adminOpen">Login Admin</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="intro-panel">
+    <div>
+      <span class="section-kicker">SISTEM INFORMASI PERJALANAN</span>
+      <h2>Atur tempat duduk dengan mudah</h2>
+      <p>Pilih bus untuk melihat denah. Tekan salah satu kursi untuk melihat informasi penumpang.</p>
+    </div>
+    <div class="trip-date"><span>JADWAL PERJALANAN</span><strong>17—18</strong><small>DESEMBER 2026</small></div>
+  </section>
+
+  <section class="bus-selector-section">
+    <div class="section-heading">
+      <div><span class="section-kicker">ARMADA</span><h2>Pilih Bus</h2></div>
+      <span class="total-fleet">4 BUS <b>·</b> 236 KURSI</span>
+    </div>
+    <div id="busTabs" class="bus-tabs" role="tablist" aria-label="Pilih bus"></div>
+  </section>
+
+  <section class="summary-grid" aria-live="polite">
+    <article class="summary-card"><span class="summary-icon">▦</span><div><small>Total Kursi</small><strong id="totalSeats">59</strong></div></article>
+    <article class="summary-card"><span class="summary-icon icon-green">✓</span><div><small>Kursi Terisi</small><strong id="filledSeats">0</strong></div></article>
+    <article class="summary-card"><span class="summary-icon icon-gold">○</span><div><small>Kursi Kosong</small><strong id="emptySeats">59</strong></div></article>
+    <article class="summary-card"><span class="summary-icon icon-dark">★</span><div><small>Kursi Khusus</small><strong id="reservedSeats">0</strong></div></article>
+  </section>
+
+  <section class="seat-section">
+    <div class="section-heading seat-heading">
+      <div><span class="section-kicker">KONFIGURASI TEMPAT DUDUK</span><h2 id="selectedBusTitle">Denah Bus 1</h2></div>
+      <div class="legend">
+        <span><i class="legend-dot available"></i>Kosong</span>
+        <span><i class="legend-dot filled"></i>Terisi</span>
+        <span><i class="legend-dot reserved"></i>Khusus</span>
+      </div>
+    </div>
+    <div class="bus-scroll">
+      <div class="bus-shell">
+        <div class="bus-front">
+          <div class="front-label"><span>🚪</span><b>PINTU / KERNET</b></div>
+          <div class="front-tl">TL</div>
+          <div class="front-driver"><span>◉</span><b>SUPIR</b></div>
+        </div>
+        <div class="seat-grid" id="seatGrid" aria-label="Denah kursi bus"></div>
+        <div class="rear-area">
+          <div class="rear-door">PINTU</div>
+          <div class="back-right" id="backRight"></div>
+        </div>
+        <div class="back-row" id="backRow"></div>
+        <div class="bus-tail">BAGIAN BELAKANG BUS</div>
+      </div>
+    </div>
+    <p class="seat-hint">Tampilan denah mengikuti susunan referensi: 2 kursi – lorong – 3 kursi, dengan 9 kursi di bagian belakang.</p>
+  </section>
+
+  <section class="timeline-section" id="timeline">
+    <div class="section-heading">
+      <div><span class="section-kicker">RUNDOWN RESMI</span><h2>Timeline Perjalanan</h2><p class="section-description">Ziarah Wali dan Wisata Selecta PP. Mambaul Hisan Gondang · Gresik–Batu</p></div>
+      <span class="date-chip">17–18 Desember 2026</span>
+    </div>
+    <div class="timeline-day">
+      <div class="day-heading"><span class="day-number">01</span><div><b>Kamis, 17 Desember 2026</b><small>Keberangkatan · Sidayu · Surabaya · Bangkalan</small></div></div>
+      <div id="dayOne" class="timeline-list"></div>
+    </div>
+    <div class="timeline-day">
+      <div class="day-heading"><span class="day-number">02</span><div><b>Jumat, 18 Desember 2026</b><small>Batu · Selecta · Perjalanan pulang</small></div></div>
+      <div id="dayTwo" class="timeline-list"></div>
+    </div>
+    <p class="schedule-note"><b>Catatan rundown:</b> Jadwal dapat berubah sesuai situasi dan kondisi lapangan. Beberapa rentang waktu pada PDF tampak tumpang tindih atau tidak berurutan (terutama 08.30–08.00 di hari kedua); waktu ditampilkan mengikuti dokumen asli dan perlu dikonfirmasi panitia.</p>
+  </section>
+
+  <footer class="site-footer">
+    <img src="logo-mambaul-hisan.png" alt="">
+    <div><b>PP. Mambaul Hisan Gondang</b><span>Rileks, Enjoy & Bahagia</span></div>
+    <button class="button button-outline" id="printBtn">Cetak / Simpan PDF</button>
+  </footer>
+  <p class="footer-note">Informasi tempat duduk dan jadwal dapat diperbarui oleh admin perjalanan.</p>
+</main>
+
+<div class="modal" id="detailModal" aria-hidden="true">
+  <div class="modal-card small-modal">
+    <button class="modal-close" data-close="detailModal" aria-label="Tutup">×</button>
+    <span class="section-kicker">INFORMASI TEMPAT DUDUK</span>
+    <h2 id="detailTitle">Kursi</h2>
+    <p id="detailInfo">Informasi kursi.</p>
+    <button class="button button-primary full" data-close="detailModal">Tutup</button>
+  </div>
+</div>
+
+<div class="modal" id="adminModal" aria-hidden="true">
+  <div class="modal-card admin-modal">
+    <button class="modal-close" data-close="adminModal" aria-label="Tutup">×</button>
+    <span class="section-kicker">PENGELOLAAN DATA</span>
+    <h2>Panel Admin</h2>
+    <div id="loginPanel">
+      <p class="muted">Masuk menggunakan akun admin yang sudah terdaftar di Supabase.</p>
+      <label>Email<input id="email" type="email" autocomplete="username" placeholder="admin@email.com"></label>
+      <label>Password<input id="password" type="password" autocomplete="current-password" placeholder="Password"></label>
+      <button class="button button-primary full" id="loginBtn">Login Admin</button>
+      <p class="message" id="loginMsg" role="status"></p>
+    </div>
+    <div id="editorPanel" hidden>
+      <div class="admin-toolbar"><span class="admin-badge">Admin aktif</span><button class="button button-outline button-small" id="logoutBtn">Logout</button></div>
+      <p class="muted">Pilih bus dan kursi pada denah, kemudian isi atau kosongkan data penumpang.</p>
+      <label>Bus aktif<select id="adminBus"></select></label>
+      <label>Nomor kursi<select id="editNumber"><option value="">Pilih nomor kursi</option></select></label>
+      <label>Nama penumpang / keterangan<input id="editName" placeholder="Masukkan nama penumpang"></label>
+      <label>Status kursi<select id="editStatus"><option value="available">Kosong</option><option value="filled">Terisi</option><option value="reserved">Khusus</option></select></label>
+      <label>Warna kursi<select id="editColor"><option value="">Otomatis sesuai status</option><option value="green">Hijau</option><option value="gold">Emas</option><option value="mint">Mint</option></select></label>
+      <button class="button button-primary full" id="saveSeat">Simpan Perubahan</button>
+      <button class="button button-danger full" id="clearSeat">Kosongkan Kursi</button>
+      <p class="message" id="saveMsg" role="status"></p>
+      <div class="admin-extra"><button class="button button-outline full" id="exportBtn">Unduh Cadangan JSON</button><label class="file-button">Impor Data JSON<input id="importFile" type="file" accept=".json,application/json"></label></div>
+    </div>
+    <div class="config-note">Pengaturan koneksi dan langkah instalasi tersedia di file README.md.</div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
